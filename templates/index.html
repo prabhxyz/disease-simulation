@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disease Spread Simulation</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #061A40;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h1 {
+            font-size: 72px;
+            background: linear-gradient(to right, #007BFF, #00A8E8, #00C2CB, #00E8A8, #00FF7B);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: gradientText 5s linear infinite;
+            margin-bottom: 5px;
+        }
+
+        @keyframes gradientText {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-size: 20px;
+            color: #B9D6F2;
+        }
+
+        select, input[type="number"] {
+            padding: 5px;
+            border: none;
+            background-color: #283c5f;
+            color: white;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        input[type="submit"] {
+            background-color: #ffc107;
+            color: #1a2236;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #ffc107;
+        }
+
+        img {
+            max-width: 80%;
+            display: block;
+            margin-top: 10px;
+            border: 5px solid #ffc107;
+        }
+    </style>
+    <script>
+        function toggleCustomInput() {
+            const diseaseSelect = document.getElementById('disease');
+            const customInputDiv = document.getElementById('customInputDiv');
+
+            if (diseaseSelect.value === 'Custom...') {
+                customInputDiv.style.display = 'block';
+            } else {
+                customInputDiv.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    <center>
+        <h1>Disease Spread Simulation</h1>
+        <form method="POST">
+            <label for="disease">Disease:</label>
+            <select id="disease" name="disease" onchange="toggleCustomInput()">
+                <option value="COVID-19">COVID-19</option>
+                <option value="Flu">Flu</option>
+                <option value="Common Cold">Common Cold</option>
+                <option value="Custom...">Custom...</option>
+            </select>
+
+            <div id="customInputDiv" style="display: none;">
+                <label for="min_recovery_time">Min Recovery Time:</label>
+                <input type="number" id="min_recovery_time" name="min_recovery_time">
+
+                <label for="max_recovery_time">Max Recovery Time:</label>
+                <input type="number" id="max_recovery_time" name="max_recovery_time">
+            </div>
+
+            <label for="pop_size">Population Size:</label>
+            <input type="number" id="pop_size" name="pop_size">
+
+            <label for="init_infected">Initial Infected:</label>
+            <input type="number" id="init_infected" name="init_infected">
+
+            <label for="sim_days">Simulation Days:</label>
+            <input type="number" id="sim_days" name="sim_days">
+            <br><br>
+            <input type="submit" value="Run Simulation">
+        </form>
+        <br><br>
+        {% if image_path %}
+        <h2>Simulation Result</h2>
+        <img src="{{ url_for('send_static', path='plot.png') }}" alt="Simulation Result">
+        {% endif %}
+        <br><br><br><br>
+    </center>
+</body>
+</html>
